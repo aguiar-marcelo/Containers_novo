@@ -1,0 +1,41 @@
+.navbar {
+  background-color: #395B64;
+  padding: 5px;
+  border-bottom: 3px solid #A5C9CA;
+  font-family: 'Montserrat', sans-serif;
+}
+.conteudo{
+  width: 1000px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+img{
+ width: 10%;
+}
+
+.list {
+  display: flex;
+  align-items:center;
+}
+
+.item {
+  margin-left: 1em;
+  margin-right: 0;
+  width: 100px;
+  text-align: right;
+}
+
+.item a {
+  color: #A5C9CA;
+  text-decoration: none;
+  transition: 0.2s;
+  padding: 8px 5px;
+  font-size: 18px;
+}
+
+.item a:hover {
+  color: #fff;
+  font-weight: 500;
+}
