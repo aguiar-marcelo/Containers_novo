@@ -23,7 +23,7 @@ db.connect(function (err) {
 })
 
 
-/*-------------------------------CRUD containerS-----------------------------------*/
+/*-------------------------------CRUD CONTAINERS-----------------------------------*/
 
 // CREATE
 app.post('/container/criar', (req, res) => {
@@ -51,7 +51,6 @@ app.get("/containers", (req, res) => {
             console.log(err)
         } else {
             res.send(result)
-            console.log('containers retornados!');
         }
     })
 })
@@ -92,7 +91,7 @@ app.delete('/container/delete/:id', (req, res) => {
 
 
 
-/*------------------------------------------------------------CRUD MOVIMENTAÇÕES-------------------------------------------------------------*/
+/*-------------------------CRUD MOVIMENTAÇÕES---------------------------------------*/
 
 /* CREATE - MOVIMENTAÇÃO*/
 app.post('/movimentacao/criar', (req, res) => {
@@ -123,25 +122,25 @@ app.get("/movimentacao/:id", (req, res) => {
 })
 
 // /*UPDATE- MOVIMENTAÇÃO*/
-// app.put('/movimentacao/update', (req, res) => {
+app.put('/movimentacao/update', (req, res) => {
 
-//     const tipo = req.body.tipo
-//     const inicio = req.body.inicio
-//     const fim = req.body.fim
-//     const id = req.body.id
+    const tipo = req.body.tipo
+    const inicio = req.body.inicio
+    const fim = req.body.fim
+    const id = req.body.id
 
 
-//     db.query(`UPDATE movimentacao SET tipo=?, inicio=?, fim=? WHERE id = ?`,
-//         [tipo, inicio, fim, id],
-//         (err, result) => {
-//             if (err) {
-//                 console.log(err)
-//             } else {
-//                 res.send(result)
-//             }
-//         }
-//     )
-// })
+    db.query(`UPDATE movimentacao SET tipo=?, inicio=?, fim=? WHERE id = ?`,
+        [tipo, inicio, fim, id],
+        (err, result) => {
+            if (err) {
+                console.log(err)
+            } else {
+                res.send(result)
+            }
+        }
+    )
+})
 
 ///*DELETE- MOVIMENTAÇÃO*/
 app.delete('/movimentacao/delete/:id', (req, res) => {
@@ -155,20 +154,30 @@ app.delete('/movimentacao/delete/:id', (req, res) => {
     })
 })
 
-/*------------------------------------------------------------RELATORIO-------------------------------------------------------------*/
-// app.get("/relatorio", (req, res) => {
-//     db.query(`
-//     select c.cliente, count(*) as total_mov, m.tipo
-//     from movimentacao m join container c
-//     on m.id_container = c.id
-//     group by c.cliente, m.tipo`, (err, result) => {
-//         if (err) {
-//             console.log(err)
-//         } else {
-//             res.send(result)
-//         }
-//     })
-// })
+/*------------------------RELATORIO---------------------------*/
+app.get("/relatorio/movimentacoes", (req, res) => {
+     db.query(`
+     select c.cliente, count(*) as total_mov, m.tipo
+     from movimentacao m join container c
+     on m.id_container = c.id
+     group by c.cliente, m.tipo`, (err, result) => {
+         if (err) {
+             console.log(err)
+         } else {
+             res.send(result)
+         }
+     })
+ })
+
+ app.get("/relatorio/impexp", (req, res) => {
+    db.query(`SELECT count(categoria) AS quantidades FROM container GROUP BY categoria`, (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result)
+        }
+    })
+})
 
 
 //RODAR API

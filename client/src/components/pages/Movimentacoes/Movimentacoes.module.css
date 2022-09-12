@@ -1,3 +1,11 @@
+.zeromovimentacoes{
+	font-size: 25px;
+	font-family: 'Montserrat', sans-serif;
+	text-align: center;
+	padding-top: 3vh;
+
+}
+
 .sumario {
 	margin-top: 3vh;
 	border-bottom: 3px solid #395B64;

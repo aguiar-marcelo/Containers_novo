@@ -31,7 +31,7 @@ export default function FormEditConteiner(props) {
         handleClose(); //fecha o modal
     };
 
-    const updateContainer = (id) => {
+    const updateContainer = () => {
         Axios.put('http://localhost:8080/container/update',
             {
                 id: props.container.id,

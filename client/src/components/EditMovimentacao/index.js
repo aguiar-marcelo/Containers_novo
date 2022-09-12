@@ -1,45 +1,44 @@
 import { useState } from 'react';
+import Button from '../Button';
 import Dialog from '@mui/material/Dialog';
-import style from './EditContainer.module.css'
+import { useParams } from 'react-router-dom'
+import style from './EditMovimentacao.module.css'
 import Axios from 'axios';
+import InputMask from 'react-input-mask';
 
 export default function FormEditMovimentacao(props) {
     const [open, setOpen] = useState(false); //status do modal
     const [error, setError] = useState(""); //msg de erro
 
-    const [newNome, setNewNome] = useState(props.container.nome);
-    const [newCliente, setNewCliente] = useState(props.container.cliente);
-    const [newTipo, setNewTipo] = useState(props.container.tipo);
-    const [newStatus, setNewStatus] = useState(props.container.status);
-    const [newCategoria, setNewCategoria] = useState(props.container.categoria);
+    const [newTipo, setNewTipo] = useState(props.movimentacao.tipo);
+    const [newInicio, setNewInicio] = useState(props.movimentacao.inicio);
+    const [newFim, setNewFim] = useState(props.movimentacao.fim);
 
 
-    const regex = /[a-zA-Z]{4}[0-9]{7}/; // 4 letras iniciais e 7 numeros
+    const regex = /[0-9]{2}$/;
 
     const validaDados = () => {
-        if (!newNome | !newCliente | !newTipo | !newStatus | !newCategoria) {//mensagem de erro caso nao preencha todos campos
+        if (!newTipo | !newInicio | !newFim) {//mensagem de erro caso nao preencha todos campos
             setError("*Preencha todos os campos*");
             return; //caso não tenha preenchido todos os campos
         }
 
-        if (!regex.test(newNome)) {
-            setError("*O nome deve conter 4 letras e 7 numeros*");
-            return;//caso o nome não esteja no formato correto
+        if (!regex.test(newFim) || !regex.test(newInicio)) {
+            setError("Data e/ou horário incorreto");
+            return;//caso nao tenha preenchido ATÉ o ultimo numero
         }
 
-        updateContainer(); //envia dados por metodo POST
+        updateMovi(); //envia dados por metodo POST
         handleClose(); //fecha o modal
     };
 
-    const updateContainer = (id) => {
-        Axios.put('http://localhost:8080/container/update',
+    const updateMovi = () => {
+        Axios.put('http://localhost:8080/movimentacao/update',
             {
-                id: props.container.id,
-                nome: newNome,
-                cliente: newCliente,
+                id: props.movimentacao.id,
                 tipo: newTipo,
-                status: newStatus,
-                categoria: newCategoria,
+                inicio: newInicio,
+                fim: newFim
 
             })
     }
@@ -51,11 +50,9 @@ export default function FormEditMovimentacao(props) {
     const handleClose = () => {
         setOpen(false);
         setError("");
-        setNewNome(props.container.nome);
-        setNewCliente(props.container.cliente);
-        setNewTipo(props.container.tipo);
-        setNewStatus(props.container.status);
-        setNewCategoria(props.container.categoria);
+        setNewTipo(props.movimentacao.tipo);
+        setNewInicio(props.movimentacao.inicio);
+        setNewFim(props.movimentacao.fim);
     };
 
     return (
@@ -63,91 +60,107 @@ export default function FormEditMovimentacao(props) {
             <i class="fas fa-edit" title="Editar" onClick={handleClickOpen}></i>
             <Dialog open={open} onClose={handleClose}>
                 <div className={style.modal}>
-                    <div className={style.header}>Editar Container</div>
+                    <div className={style.header}>Editar Movimentação</div>
                     <div className={style.formbox}>
                         <form>
-                            <p>Nome</p>
-                            <input
-                                type="text"
-                                placeholder="ex: ABDC1234567"
-                                value={newNome}
-                                maxLength={11}
-                                onChange={(e) => [setNewNome(e.target.value), setError("")]}
-                            />
-
-                            <p>Cliente</p>
-                            <input
-                                type="text"
-                                value={newCliente}
-                                onChange={(e) => [setNewCliente(e.target.value), setError("")]}
-                            />
-
-                            <p>Tipo</p>
+                            <p>Tipo: {newTipo}</p>
                             <div className={style.radio_grid}>
-                                <label className={style.radio_box}>20 pés
+                                <label className={style.radio_box}>Embarque
                                     <input
                                         type="radio"
                                         name="tipo"
-                                        value={"20"}
-                                        onChange={(e) => [setNewTipo(e.target.value), setError("")]}
+                                        value={"Embarque"}
+                                        onChange={(event) => {
+                                            setNewTipo(event.target.value);
+                                        }}
                                     />
                                     <span className={style.checkmark}></span>
                                 </label>
-
-                                <label className={style.radio_box}>40 pés
+                                <label className={style.radio_box}>Descarga
                                     <input
                                         type="radio"
                                         name="tipo"
-                                        value={"40"}
-                                        onChange={(e) => [setNewTipo(e.target.value), setError("")]}
+                                        value={"Descarga"}
+                                        onChange={(event) => {
+                                            setNewTipo(event.target.value);
+                                        }}
+                                    />
+                                    <span className={style.checkmark}></span>
+                                </label>
+                                <label className={style.radio_box}>Gate-In
+                                    <input
+                                        type="radio"
+                                        name="tipo"
+                                        value={"Gate-In"}
+                                        onChange={(event) => {
+                                            setNewTipo(event.target.value);
+                                        }}
+                                    />
+                                    <span className={style.checkmark}></span>
+                                </label>
+                                <label className={style.radio_box}>Gate-Out
+                                    <input
+                                        type="radio"
+                                        name="tipo"
+                                        value={"Gate-Out"}
+                                        onChange={(event) => {
+                                            setNewTipo(event.target.value);
+                                        }}
+                                    />
+                                    <span className={style.checkmark}></span>
+                                </label>
+                                <label className={style.radio_box}>Reposicionamento
+                                    <input
+                                        type="radio"
+                                        name="tipo"
+                                        value={"Reposicionamento"}
+                                        onChange={(event) => {
+                                            setNewTipo(event.target.value);
+                                        }}
+                                    />
+                                    <span className={style.checkmark}></span>
+                                </label>
+                                <label className={style.radio_box}>Pesagem
+                                    <input
+                                        type="radio"
+                                        name="tipo"
+                                        value={"Pesagem"}
+                                        onChange={(event) => {
+                                            setNewTipo(event.target.value);
+                                        }}
+                                    />
+                                    <span className={style.checkmark}></span>
+                                </label>
+                                <label className={style.radio_box}>Scanner
+                                    <input
+                                        type="radio"
+                                        name="tipo"
+                                        value={"Scanner"}
+                                        onChange={(event) => {
+                                            setNewTipo(event.target.value);
+                                        }}
                                     />
                                     <span className={style.checkmark}></span>
                                 </label>
                             </div>
-                            <p>Status</p>
-                            <div className={style.radio_grid}>
-                                <label className={style.radio_box}>Cheio
-                                    <input
-                                        type="radio"
-                                        name="status"
-                                        value={'cheio'}
-                                        onChange={(e) => [setNewStatus(e.target.value), setError("")]}
-                                    />
-                                    <span className={style.checkmark}></span>
-                                </label>
+                            <p className={style.titulodata}>Inicio </p>
+                            <InputMask
+                                className={style.inputdata}
+                                mask='99/99/9999 99:99'
+                                onChange={(event) => {
+                                    setNewInicio(event.target.value);
+                                }}>
+                            </InputMask>
 
-                                <label className={style.radio_box}>Vazio
-                                    <input
-                                        type="radio"
-                                        name="status"
-                                        value={'vazio'}
-                                        onChange={(e) => [setNewStatus(e.target.value), setError("")]}
-                                    />
-                                    <span className={style.checkmark}></span>
-                                </label>
-                            </div>
+                            <p className={style.titulodata}>Fim</p>
+                            <InputMask
+                                className={style.inputdata}
+                                mask='99/99/9999 99:99'
+                                onChange={(event) => {
+                                    setNewFim(event.target.value);
+                                }}>
+                            </InputMask>
 
-                            <p>Categoria</p>
-                            <div className={style.radio_grid}>
-                                <label className={style.radio_box}>Importação
-                                    <input
-                                        type="radio"
-                                        name="categoria"
-                                        value={'importacao'}
-                                        onChange={(e) => [setNewCategoria(e.target.value), setError("")]}
-                                    />
-                                    <span className={style.checkmark}></span>
-                                </label>
-                                <label className={style.radio_box}>Exportação
-                                    <input
-                                        type="radio"
-                                        name="categoria"
-                                        value={'exportacao'}
-                                        onChange={(e) => [setNewCategoria(e.target.value), setError("")]}
-                                    />
-                                    <span className={style.checkmark}></span>
-                                </label>
-                            </div>
                         </form>
                         <div className={style.msg}>{error}</div>
                         <button className={style.botao_submit} type="submit" onClick={validaDados}>Confirmar alterações</button>

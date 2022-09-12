@@ -1,0 +1,59 @@
+.totais{
+	display: flex;
+	justify-content: center;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.impexp{
+	margin: 0 20px;
+	color: #395B64;
+	font-weight: 600;
+ 	text-align: center;
+}
+
+.impexp div{
+	color: #2C3333;
+	font-weight: 400;
+	font-size: 25px;
+}
+
+.sumario {
+	margin-top: 5vh;
+	border-bottom: 3px solid #395B64;
+}
+
+
+.table {
+	font-family: 'News Cycle', sans-serif;
+	width: 100%;
+}
+
+.table_item{
+	background-color: #F4FDFB;
+	font-size: 19px;
+	padding: 0 5px;
+	/* display: grid;
+	grid-template-columns: 0.6fr 1.5fr 0.25fr 0.3fr 0.5fr 0.7fr; */
+	border-bottom: 2px solid #D9D9D9;
+}
+
+.table_item:nth-child(even) {
+	background-color: #fff;
+}
+
+.empresa{
+	background-color: rgba(255, 0, 0, 0.144);
+	font-weight: 600;
+	text-align: center;
+}
+
+.movimentacoes{
+	background-color: rgba(255, 0, 0, 0.493);
+	display: flex;
+	justify-content: center;
+}
+
+.movimentacoes_item{
+	background-color: rgba(255, 0, 0, 0.685);
+	text-align: center;
+}

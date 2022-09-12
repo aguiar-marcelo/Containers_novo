@@ -6,18 +6,16 @@ import style from './NewMovimentacao.module.css'
 import Axios from 'axios';
 import InputMask from 'react-input-mask';
 
-export default function FormDialog(props) {
+export default function FormDialog() {
     let { id } = useParams();
-    const [open, setOpen] = useState(true); //status do modal
+    const [open, setOpen] = useState(false); //status do modal
     const [error, setError] = useState(""); //msg de erro
 
     const [tipo, setTipo] = useState("");
     const [inicio, setInicio] = useState("");
     const [fim, setFim] = useState("");
 
-
     const regex = /[0-9]{2}$/;
-
 
     const validaDados = () => {
         if (!tipo | !inicio | !fim) {//mensagem de erro caso nao preencha todos campos

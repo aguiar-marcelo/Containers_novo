@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Content from './components/Content'
 import Containers from './components/pages/Containers'
 import Movimentacoes from './components/pages/Movimentacoes'
+import Relatorio from './components/pages/Relatorio'
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           <Route path="/" element={<Containers />} />
           <Route path="*" element={<Containers />} />
           <Route path="/movimentacoes/:id" element={<Movimentacoes />} />
-          <Route path="/relatorio" element={<Containers />} />
+          <Route path="/relatorio" element={<Relatorio />} />
         </Routes>
       </Content>
     </Router>

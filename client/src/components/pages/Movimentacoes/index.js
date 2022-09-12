@@ -1,9 +1,10 @@
 import style from './Movimentacoes.module.css'
-import NewMovimentacao from '../../NewMovimentacao';
 import Axios from 'axios';
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import EditContainer from '../../EditContainer';
+import EditMovimentacao from '../../EditMovimentacao';
+import NewMovimentacao from '../../NewMovimentacao';
+
 
 function Movimentacoes() {
   let { id } = useParams();
@@ -32,8 +33,8 @@ function Movimentacoes() {
       <div className={style.table}></div>
 
       {moviList.length == 0 ? //operador ternario, caso nao tenha nenhum registro
-        <div>
-          nenhum projeto ainda
+        <div className={style.zeromovimentacoes}>
+          Nenhuma movimentação registrada
         </div>
         :
         <div className={style.movimentacoes}>
@@ -54,7 +55,7 @@ function Movimentacoes() {
                   title="Deletar"
                   onClick={() => { deleteMovimentacao(val.id) }}>
                 </i>
-                <i class="fas fa-edit" title="Editar" ></i>
+                <EditMovimentacao movimentacao={val} />
               </div>
 
 
