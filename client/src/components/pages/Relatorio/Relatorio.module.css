@@ -39,8 +39,9 @@
 	background-color: #fff;
 }
 
-.empresa{
+.cliente{
 	font-weight: 600;
+	color: #2C3333;
 	font-family: 'News Cycle', sans-serif;
 	text-align: center;
 	padding-top: 10px;
@@ -54,7 +55,7 @@
 .movimentacoes_item{
 	margin: 10px 10px;
 	text-align: center;
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 600;
 	color: #395B64;
 }

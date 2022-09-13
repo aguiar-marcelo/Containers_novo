@@ -37,7 +37,7 @@ app.post('/container/criar', (req, res) => {
         [nome, cliente, tipo, status, categoria], (err, result) => {
             if (err) {
                 console.log(err)
-            } else{
+            } else {
                 console.log('container adicionado!');
             }
         }
@@ -112,7 +112,7 @@ app.post('/movimentacao/criar', (req, res) => {
 //READ- MOVIMENTAÇÃO select * from movimentacao where id_container = '4'
 app.get("/movimentacao/:id", (req, res) => {
     const id = req.params.id;
-    db.query(`SELECT * FROM movimentacao WHERE id_container = ?`, id ,(err, result) => {
+    db.query(`SELECT * FROM movimentacao WHERE id_container = ?`, id, (err, result) => {
         if (err) {
             console.log(err);
         } else {
@@ -156,21 +156,30 @@ app.delete('/movimentacao/delete/:id', (req, res) => {
 
 /*------------------------RELATORIO---------------------------*/
 app.get("/relatorio/movi", (req, res) => {
-     db.query(`
-     select c.cliente, count(*) as total_mov, m.tipo
-     from movimentacao m join container c
-     on m.id_container = c.id
-     group by c.cliente, m.tipo`, (err, result) => {
-         if (err) {
-             console.log(err)
-         } else {
-             res.send(result);
-             console.log('Relatorio Movimentacoes!');
-         }
-     })
- })
+    db.query(`
+     select distinct
+       c.cliente,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Embarque' and m2.id_container = c.id group by tipo) as Embarque,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Descarga' and m2.id_container = c.id group by tipo) as Descarga,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Gate-In' and m2.id_container = c.id group by tipo) as GateIn,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Gate-Out' and m2.id_container = c.id group by tipo) as GateOut,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Reposicionamento' and m2.id_container = c.id group by tipo) as Reposicionamento,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Pesagem' and m2.id_container = c.id group by tipo) as Pesagem,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Scanner' and m2.id_container = c.id group by tipo) as Scanner
+  from movimentacao m join container c
+    on m.id_container = c.id
+group by c.cliente, m.tipo;
+     `, (err, result) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.send(result);
+            console.log('Relatorio Movimentacoes!');
+        }
+    })
+})
 
- app.get("/relatorio/impexp", (req, res) => {
+app.get("/relatorio/impexp", (req, res) => {
     db.query(`SELECT count(categoria) AS quantidade FROM container GROUP BY categoria;`, (err, result) => {
         if (err) {
             console.log(err)

@@ -61,10 +61,23 @@ movimentação.
 3.1. No final do relatório deverá conter um sumário com o total de importação /
 exportação.
 */
+
+select distinct
+       c.cliente,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Embarque' and m2.id_container = c.id group by tipo) as Embarque,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Descarga' and m2.id_container = c.id group by tipo) as Descarga,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Gate-In' and m2.id_container = c.id group by tipo) as "Gate-In",
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Gate-Out' and m2.id_container = c.id group by tipo) as "Gate-Out",
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Reposicionamento' and m2.id_container = c.id group by tipo) as Reposicionamento,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Pesagem' and m2.id_container = c.id group by tipo) as Pesagem,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Scanner' and m2.id_container = c.id group by tipo) as Scanner
+  from movimentacao m join container c
+    on m.id_container = c.id
+group by c.cliente, m.tipo;
+
+SELECT categoria, count(categoria) AS quantidade FROM container GROUP BY categoria;
+
 SELECT c.cliente,  m.tipo,count(*) AS total_mov
 FROM movimentacao m JOIN container c
 ON m.id_container = c.id
 GROUP BY c.cliente, m.tipo;
-
-
-SELECT count(categoria) AS quantidade FROM container GROUP BY categoria;

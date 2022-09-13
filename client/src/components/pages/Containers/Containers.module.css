@@ -1,4 +1,28 @@
-.zerocontainer{
+.flex {
+	display: flex;
+	justify-content: space-between;
+}
+
+.busca {
+	width: 20%;
+	height: 25px;
+	font-family: 'News Cycle', sans-serif;
+	font-size: 19px;
+	outline: none;
+	border: 3px solid #A5C9CA;
+	transition: 0.3s;
+	padding: 0.5em 1em;
+	font-size: 17px;
+	font-family: 'Montserrat', sans-serif;
+	border-radius: 10px;
+	
+}
+
+.busca:focus {
+	border: 3px solid #395B64;
+}
+
+.zerocontainer {
 	font-size: 25px;
 	font-family: 'Montserrat', sans-serif;
 	text-align: center;
@@ -6,11 +30,12 @@
 }
 
 .sumario {
-	margin-top: 3vh;
+	margin-top: 5.3vh;
 	color: #2C3333;
 	padding: 0 5px;
 	display: grid;
-	grid-template-columns: 0.6fr 1.5fr 0.25fr 0.3fr 0.5fr 0.7fr;	border-bottom: 3px solid #395B64;
+	grid-template-columns: 0.6fr 1.5fr 0.25fr 0.3fr 0.5fr 0.6fr;
+	border-bottom: 3px solid #395B64;
 }
 
 .sumario div {
@@ -24,16 +49,16 @@
 	width: 100%;
 }
 
-.table_item{
+.table_item {
 	background-color: #F4FDFB;
 	font-size: 19px;
 	padding: 0 5px;
 	display: grid;
-	grid-template-columns: 0.6fr 1.5fr 0.25fr 0.3fr 0.5fr 0.7fr;
+	grid-template-columns: 0.6fr 1.5fr 0.25fr 0.3fr 0.5fr 0.6fr;
 	border-bottom: 2px solid #D9D9D9;
 }
 
-.table_item div{
+.table_item div {
 	padding: 7px 0;
 }
 
@@ -41,18 +66,18 @@
 	background-color: #fff;
 }
 
-.center{
+.center {
 	text-align: center;
 }
 
-.icons{
+.icons {
 	color: #2C3333;
 	display: flex;
 	justify-content: space-around;
 }
 
-.icons i{
+.icons i {
 	font-size: 23px;
 	cursor: pointer;
-	margin: auto ;
+	margin: auto;
 }

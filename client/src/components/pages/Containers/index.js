@@ -36,12 +36,18 @@ function Containers() {
 
   return (
     <>
-      <NewContainer />
-      <input type="text"
-        value={busca}
-        onChange={(event) => {
-          setBusca(event.target.value);
-        }} />
+      <div className={style.flex}>
+        <NewContainer />
+        <input
+          className={style.busca}
+          maxLength="11"
+          type="text"
+          placeholder='Pesquisar...'
+          onChange={(event) => {
+            setBusca(event.target.value);
+          }} />
+        {/* <i class="fa fa-search"></i> */}
+      </div>
       <div className={style.sumario}>
         <div>Nome</div>
         <div>Cliente</div>
@@ -58,7 +64,13 @@ function Containers() {
 
         <div className={style.table}>
 
-          {containerList.map((val, key) => {
+          {containerList.filter((val) => {
+            if (busca == "") {
+              return val
+            } else if (val.nome.toLowerCase().includes(busca.toLowerCase()) || val.cliente.toLowerCase().includes(busca.toLowerCase()) || val.tipo.toLowerCase().includes(busca.toLowerCase()) || val.status.toLowerCase().includes(busca.toLowerCase()) || val.categoria.toLowerCase().includes(busca.toLowerCase())) {
+              return val
+            }
+          }).map((val, key) => {
 
             return (
               <div className={style.table_item}>

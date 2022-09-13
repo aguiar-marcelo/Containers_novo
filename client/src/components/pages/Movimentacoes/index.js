@@ -11,7 +11,7 @@ function Movimentacoes() {
   const [moviList, setMoviList] = useState([])
 
   useEffect(() => {
-    getMovimentacoes(id)
+    getMovimentacoes(id);
   })
 
   //READ
@@ -45,7 +45,6 @@ function Movimentacoes() {
                 <div>Inicio:</div>
                 {val.inicio.replace(" ", " > ")}
               </div>
-
               <div className={style.data}>
                 <div>Fim:</div>
                 {val.fim.replace(" ", " > ")}
@@ -57,12 +56,9 @@ function Movimentacoes() {
                 </i>
                 <EditMovimentacao movimentacao={val} />
               </div>
-
-
             </div>
           ))}
         </div>
-
       }
     </>
   )
