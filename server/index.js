@@ -155,7 +155,7 @@ app.delete('/movimentacao/delete/:id', (req, res) => {
 })
 
 /*------------------------RELATORIO---------------------------*/
-app.get("/relatorio/movimentacoes", (req, res) => {
+app.get("/relatorio/movi", (req, res) => {
      db.query(`
      select c.cliente, count(*) as total_mov, m.tipo
      from movimentacao m join container c
@@ -164,17 +164,19 @@ app.get("/relatorio/movimentacoes", (req, res) => {
          if (err) {
              console.log(err)
          } else {
-             res.send(result)
+             res.send(result);
+             console.log('Relatorio Movimentacoes!');
          }
      })
  })
 
  app.get("/relatorio/impexp", (req, res) => {
-    db.query(`SELECT count(categoria) AS quantidades FROM container GROUP BY categoria`, (err, result) => {
+    db.query(`SELECT count(categoria) AS quantidade FROM container GROUP BY categoria;`, (err, result) => {
         if (err) {
             console.log(err)
         } else {
             res.send(result)
+            console.log('Relatorio impexp!');
         }
     })
 })

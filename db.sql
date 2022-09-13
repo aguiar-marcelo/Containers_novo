@@ -67,4 +67,4 @@ ON m.id_container = c.id
 GROUP BY c.cliente, m.tipo;
 
 
-SELECT count(categoria) AS quantidades FROM container GROUP BY categoria;
+SELECT count(categoria) AS quantidade FROM container GROUP BY categoria;

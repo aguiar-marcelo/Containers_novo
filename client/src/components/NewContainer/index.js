@@ -71,7 +71,7 @@ export default function FormDialog() {
                                 type="text"
                                 placeholder="ex: ABDC1234567"
                                 maxLength={11}
-                                onChange={(e) => [setNome(e.target.value), setError("")]}
+                                onChange={(e) => [setNome(e.target.value.toUpperCase()), setError("")]}
                             />
 
                             <p>Cliente</p>

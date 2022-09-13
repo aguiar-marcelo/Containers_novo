@@ -31,9 +31,17 @@ function Containers() {
     navigate(`/movimentacoes/${id}`);
   }
 
+  const [busca, setBusca] = useState("");
+
+
   return (
     <>
       <NewContainer />
+      <input type="text"
+        value={busca}
+        onChange={(event) => {
+          setBusca(event.target.value);
+        }} />
       <div className={style.sumario}>
         <div>Nome</div>
         <div>Cliente</div>
@@ -42,37 +50,43 @@ function Containers() {
         <div className={style.center}>Categotia</div>
         <div></div>
       </div>
-      <div className={style.table}>
+      {/* //operador ternario, caso nao tenha nenhum registro */}
+      {containerList.length == 0 ?
+        <div className={style.zerocontainer}>Nenhum container registrado</div>
 
-        {containerList.map((val, key) => {
+        :
 
-          return (
-            <div className={style.table_item}>
-              <div>{val.nome}</div>
-              <div>{val.cliente}</div>
-              <div className={style.center}>{val.tipo}</div>
-              <div className={style.center}>{val.status}</div>
-              <div className={style.center}>{val.categoria}</div>
-              <div className={style.icons}>
+        <div className={style.table}>
 
-                <i class="fas fa-trash-alt"
-                  title="Deletar"
-                  onClick={() => { deleteContainer(val.id) }}>
-                </i>
+          {containerList.map((val, key) => {
 
-                <EditContainer container={val} /> 
+            return (
+              <div className={style.table_item}>
+                <div>{val.nome}</div>
+                <div>{val.cliente}</div>
+                <div className={style.center}>{val.tipo}</div>
+                <div className={style.center}>{val.status}</div>
+                <div className={style.center}>{val.categoria}</div>
+                <div className={style.icons}>
 
-                <i class="fas fa-retweet" 
-                title="Movimentações" 
-                onClick={() => { Direction(val.id) }}> 
-                </i>
+                  <i class="fas fa-trash-alt"
+                    title="Deletar"
+                    onClick={() => { deleteContainer(val.id) }}>
+                  </i>
+
+                  <EditContainer container={val} />
+
+                  <i class="fas fa-retweet"
+                    title="Movimentações"
+                    onClick={() => { Direction(val.id) }}>
+                  </i>
+                </div>
               </div>
-            </div>
-          )
-        })}
+            )
+          })}
 
-      </div>
-
+        </div>
+      }
 
     </>
   )
