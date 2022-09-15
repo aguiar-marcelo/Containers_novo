@@ -2,7 +2,7 @@ import style from './Relatorio.module.css'
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
 
-function Containers() {
+function Relatorio() {
 
     const [relatorioMovi, setRelatorioMovi] = useState([]);
     const [relatorioImpexp, setRelatorioImpexp] = useState([]);
@@ -24,7 +24,7 @@ function Containers() {
 
     const importacao = relatorioImpexp[0]?.quantidade;
     const exportacao = relatorioImpexp[1]?.quantidade;
-    console.log(exportacao)
+
     return (
         <>
             <div className={style.totais}>
@@ -76,42 +76,10 @@ function Containers() {
                         </div>
                     </div>
                 ))}
-                {/* <div className={style.table_item}>
-                    <div className={style.empresa}>Company Tech International LTDA</div>
-                    <div className={style.movimentacoes}>
-                        <div className={style.movimentacoes_item}>
-                            Embarque
-                            <div>5</div>
-                        </div>
-                        <div className={style.movimentacoes_item}>
-                            Descarga
-                            <div>5</div>
-                        </div>
-                        <div className={style.movimentacoes_item}>
-                            Gate in
-                            <div>5</div>
-                        </div>
-                        <div className={style.movimentacoes_item}>
-                            Gate out
-                            <div>5</div>
-                        </div>
-                        <div className={style.movimentacoes_item}>
-                            Reposicionamento
-                            <div>5</div>
-                        </div>
-                        <div className={style.movimentacoes_item}>
-                            Pesagem
-                            <div>5</div>
-                        </div>
-                        <div className={style.movimentacoes_item}>
-                            Scanner
-                            <div>5</div>
-                        </div>
-                    </div>
-                </div> */}
+                
             </div>
         </>
     )
 }
 
-export default Containers;
+export default Relatorio;

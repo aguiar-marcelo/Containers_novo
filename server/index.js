@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-const mysql = require('mysql')
-const cors = require('cors')
+const mysql = require('mysql');
+const cors = require('cors');
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 // CONEXÃO COM BANCO
 const db = mysql.createConnection({
@@ -12,9 +12,9 @@ const db = mysql.createConnection({
     host: 'localhost',
     password: 'password',
     database: 'db_container'
-})
+});
 
-//TESTE DE CONEXÃO
+//TESTE DE CONEXAO
 db.connect(function (err) {
     if (err) { throw err }
     else {
@@ -63,7 +63,7 @@ app.put('/container/update', (req, res) => {
     const tipo = req.body.tipo;
     const status = req.body.status;
     const categoria = req.body.categoria;
-    //update container set cliente='fff', tipo='40' where id='ABCD3333333';
+
     db.query("UPDATE container SET nome=?, cliente = ?,tipo = ?,status = ?,categoria = ? WHERE id = ?",
         [nome, cliente, tipo, status, categoria, id],
         (err, result) => {
@@ -109,7 +109,7 @@ app.post('/movimentacao/criar', (req, res) => {
     )
 })
 
-//READ- MOVIMENTAÇÃO select * from movimentacao where id_container = '4'
+//READ- MOVIMENTAÇÃO
 app.get("/movimentacao/:id", (req, res) => {
     const id = req.params.id;
     db.query(`SELECT * FROM movimentacao WHERE id_container = ?`, id, (err, result) => {
@@ -191,5 +191,4 @@ app.get("/relatorio/impexp", (req, res) => {
 })
 
 
-//RODAR API
-app.listen(8080, () => { console.log("servidor rodando na porta 8080...") });
+app.listen(8080, () => { console.log("servidor rodando na porta 8080...") })

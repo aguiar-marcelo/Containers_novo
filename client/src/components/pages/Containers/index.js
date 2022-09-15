@@ -1,5 +1,5 @@
 import style from './Containers.module.css'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import NewContainer from '../../NewContainer';
@@ -46,7 +46,7 @@ function Containers() {
           onChange={(event) => {
             setBusca(event.target.value);
           }} />
-        {/* <i class="fa fa-search"></i> */}
+        
       </div>
       <div className={style.sumario}>
         <div>Nome</div>

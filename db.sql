@@ -1,73 +1,54 @@
-show databases;
-
 create database db_container;
 use db_container;
 
- create table container (
- id int not null auto_increment,
- nome char(11),
- cliente varchar(100),
- tipo enum ('20','40'),
- status enum ('Cheio','Vazio'),
- categoria enum ('Importação','Exportação'),
+create table container (
+	id int not null auto_increment,
+    nome char(11),
+    cliente varchar(100),
+    tipo enum ('20','40'),
+    `status` enum ('Cheio', 'Vazio'),
+    categoria enum ('Importação','Exportação'),
+    
+    primary key (id)
+)default charset = utf8;
 
- primary key(id)
- )default charset = utf8;
- 
- create table movimentacao (
+desc container;
+
+create table movimentacao (
 	id int not null auto_increment,
     id_container int not null,
-    tipo enum ('Embarque', 'Descarga', 'Gate-In','Gate-Out', 'Reposicionamento', 'Pesagem', 'Scanner'),
+    tipo enum('Embarque','Descarga','Gate-In','Gate-Out','Reposicionamento','Pesagem','Scanner'),
     inicio varchar(30),
-    fim varchar(130),
+    fim varchar(30),
+    
+    primary key(id),
+    foreign key(id_container) references container(id)
+    
+    on delete cascade
+    on update cascade
+)default charset = utf8;
 
-primary key (id),
-foreign key (id_container) references container(id)
-
-on delete cascade
-on update cascade
- )default charset = utf8;
- 
- show tables;
-
- desc container; 
- desc movimentacao;
+desc movimentacao;
 
 select * from container;
 select * from movimentacao;
 
-select * from movimentacao where id_container = '3';
 
-update container set cliente='fff', tipo='40' where id='ABCD3333333';
+insert into container (nome, cliente, tipo, status, categoria) values
+('ABCD1234567','Empresa1','20','Vazio','Importação');
 
-INSERT INTO container (nome, cliente, tipo, status, categoria) VALUES 
-('ABCD1234565', 'ExemploCorp', '20', 'vazio', 'importacao');
-
-INSERT INTO movimentacao (id_container, tipo, inicio, fim) VALUES 
-('3', 'Descarga', '2022/12/05 11:59:30', '2022/12/06 11:59:30');
+insert into movimentacao (id_container, tipo, inicio, fim) values
+('1','Embarque','17/04/2002 12:00','18/04/2002 13:00');
 
 
-DELETE FROM movimentacao where tipo = 'gate-out';
-
-drop table movimentacao;
-
-alter table container
-modify nome char(11) not null unique;
-
-
-/*----------------------------------------------------------------------------------------------------------
-Relatório com o total de movimentações agrupadas por cliente e tipo de
-movimentação.
-3.1. No final do relatório deverá conter um sumário com o total de importação /
-exportação.
-*/
+/*----------------------------Relatorios--------------------------------*/
 
 select distinct
        c.cliente,
        ( select count(tipo) from movimentacao m2 where m2.tipo = 'Embarque' and m2.id_container = c.id group by tipo) as Embarque,
        ( select count(tipo) from movimentacao m2 where m2.tipo = 'Descarga' and m2.id_container = c.id group by tipo) as Descarga,
-       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Gate-In' and m2.id_container = c.id group by tipo) as "Gate-In",
-       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Gate-Out' and m2.id_container = c.id group by tipo) as "Gate-Out",
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Gate-In' and m2.id_container = c.id group by tipo) as GateIn,
+       ( select count(tipo) from movimentacao m2 where m2.tipo = 'Gate-Out' and m2.id_container = c.id group by tipo) as GateOut,
        ( select count(tipo) from movimentacao m2 where m2.tipo = 'Reposicionamento' and m2.id_container = c.id group by tipo) as Reposicionamento,
        ( select count(tipo) from movimentacao m2 where m2.tipo = 'Pesagem' and m2.id_container = c.id group by tipo) as Pesagem,
        ( select count(tipo) from movimentacao m2 where m2.tipo = 'Scanner' and m2.id_container = c.id group by tipo) as Scanner
@@ -75,9 +56,5 @@ select distinct
     on m.id_container = c.id
 group by c.cliente, m.tipo;
 
-SELECT categoria, count(categoria) AS quantidade FROM container GROUP BY categoria;
 
-SELECT c.cliente,  m.tipo,count(*) AS total_mov
-FROM movimentacao m JOIN container c
-ON m.id_container = c.id
-GROUP BY c.cliente, m.tipo;
+SELECT count(categoria) AS quantidade FROM container GROUP BY categoria;
